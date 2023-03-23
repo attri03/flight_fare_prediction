@@ -4,6 +4,8 @@ from flight.logger import logging
 from flight.exception import CustomException
 import os, sys
 import yaml
+import numpy as np
+import pickle
 
 def get_collection_as_dataframe(Database:str, collection:str):
     try:
@@ -47,5 +49,19 @@ def drop_na_values(data):
         logging.info('Dropping null values')
         data = data.dropna()
         return data
+    except Exception as e:
+        raise CustomException(e, sys)
+    
+def save_numpy_data(data, file_path):
+    try:
+        logging.info('saving the numpy file')
+        np.save(file_path, data)
+    except Exception as e:
+        raise CustomException(e, sys)
+
+def save_pickle_file(file, file_path):
+    try:
+        with open(file_path, 'wb') as file_path:
+            pickle.dump(file, file_path)
     except Exception as e:
         raise CustomException(e, sys)

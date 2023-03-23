@@ -10,8 +10,10 @@ TEST_DATA = 'test_data.csv'
 CLEANED_TRAIN_DATA = 'clean_train_data.csv'
 CLEANED_TEST_DATA = 'clean_test_data.csv'
 RAW_DATA_CLEANED = 'clean_raw_data.csv'
-REPORT_NAME_2 = 'report_2.yaml'
-
+TRANSFORMER_OBJ_FILE = 'transformer_obj.pkl'
+TRANSFORMED_TRAIN_FILE = 'transformed_train_file.csv'
+TRANSFORMED_TEST_FILE = 'transformed_test_file.csv'
+ 
 class TrainingPipelineConfig:
     def __init__(self):
         try:
@@ -54,7 +56,14 @@ class DataCleanConfig:
             raise CustomException(e, sys)
         
 class DataTransformationConfig:
-    pass
+    def __init__(self, training_pipeline_config : TrainingPipelineConfig):
+        try:
+            self.data_transformation_dir = os.path.join(training_pipeline_config.artifact_dir, 'data_transformation')
+            self.transformer_object_file_path = os.path.join(self.data_transformation_dir, TRANSFORMER_OBJ_FILE)
+            self.transformed_train_file = os.path.join(self.data_transformation_dir, TRANSFORMED_TRAIN_FILE)
+            self.transformed_test_file = os.path.join(self.data_transformation_dir, TRANSFORMED_TEST_FILE)
+        except Exception as e:
+            raise CustomException(e, sys)
 
 class ModelTrainerConfig:
     pass

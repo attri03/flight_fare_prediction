@@ -1,9 +1,9 @@
 from flight.components.data_ingestion import DataIngestion
-from flight.entity.config_entity import DataIngestionConfig, TrainingPipelineConfig, DataValidationConfig, DataCleanConfig, DataValidation2Config
+from flight.entity.config_entity import DataIngestionConfig, TrainingPipelineConfig, DataValidationConfig, DataCleanConfig, DataTransformationConfig
 from flight.entity.artifact_entity import DataIngestionArtifact, DataCleanArtifact
 from flight.components.data_validation import DataValidation
 from flight.components.data_clean import DataClean
-from flight.components.data_validation_2 import DataValidation2
+from flight.components.data_transformation import DataTransformation
 
 
 if __name__ == "__main__":
@@ -26,10 +26,12 @@ if __name__ == "__main__":
                            data_ingestion_artifact=data_ingestion_artifact)
     print(data_clean.Initiate_Data_Cleaning())
 
-    data_validation_2_config = DataValidation2Config(training_pipeline_config=training_pipeline_config)
+    data_transformation_config = DataTransformationConfig(training_pipeline_config=training_pipeline_config)
     data_clean_artifact = DataCleanArtifact(clean_raw_data=data_clean_config.raw_data_cleaned,
                                             clean_test_data=data_clean_config.test_data_cleaned,
                                             clean_train_data=data_clean_config.train_data_cleaned)
-    data_validation_2 = DataValidation2(data_validation_2_config=data_validation_2_config,
-                                        data_clean_artifact=data_clean_artifact)
-    print(data_validation_2.Initiate_Data_Validation_Phase_2())
+    data_transformation = DataTransformation(
+        data_transformation_config=data_transformation_config,
+        data_clean_artifact=data_clean_artifact
+    )
+    print(data_transformation.Initiate_Data_Transformation())
