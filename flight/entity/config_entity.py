@@ -11,8 +11,9 @@ CLEANED_TRAIN_DATA = 'clean_train_data.csv'
 CLEANED_TEST_DATA = 'clean_test_data.csv'
 RAW_DATA_CLEANED = 'clean_raw_data.csv'
 TRANSFORMER_OBJ_FILE = 'transformer_obj.pkl'
-TRANSFORMED_TRAIN_FILE = 'transformed_train_file.csv'
-TRANSFORMED_TEST_FILE = 'transformed_test_file.csv'
+TRANSFORMED_TRAIN_FILE = 'transformed_train_file.npy'
+TRANSFORMED_TEST_FILE = 'transformed_test_file.npy'
+MODEL_OBJ = 'model.pkl'
  
 class TrainingPipelineConfig:
     def __init__(self):
@@ -66,7 +67,13 @@ class DataTransformationConfig:
             raise CustomException(e, sys)
 
 class ModelTrainerConfig:
-    pass
+    def __init__(self, training_pipeline_config : TrainingPipelineConfig):
+        try:
+            self.model_train_dir = os.path.join(training_pipeline_config.artifact_dir, 'Model_Trainer')
+            self.model_path = os.path.join(self.model_train_dir, MODEL_OBJ)
+            self.threshold_value = 0.7
+        except Exception as e:
+            raise CustomException(e, sys)
 
 class ModelEvaluationConfig:
     pass

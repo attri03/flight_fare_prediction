@@ -1,10 +1,10 @@
 from flight.components.data_ingestion import DataIngestion
-from flight.entity.config_entity import DataIngestionConfig, TrainingPipelineConfig, DataValidationConfig, DataCleanConfig, DataTransformationConfig
-from flight.entity.artifact_entity import DataIngestionArtifact, DataCleanArtifact
+from flight.entity.config_entity import DataIngestionConfig, TrainingPipelineConfig, DataValidationConfig, DataCleanConfig, DataTransformationConfig, ModelTrainerConfig
+from flight.entity.artifact_entity import DataIngestionArtifact, DataCleanArtifact, DataTransformationArtifact
 from flight.components.data_validation import DataValidation
 from flight.components.data_clean import DataClean
 from flight.components.data_transformation import DataTransformation
-
+from flight.components.model_trainer import ModelTrainer
 
 if __name__ == "__main__":
 
@@ -35,3 +35,13 @@ if __name__ == "__main__":
         data_clean_artifact=data_clean_artifact
     )
     print(data_transformation.Initiate_Data_Transformation())
+
+    model_trainer_config = ModelTrainerConfig(training_pipeline_config=training_pipeline_config)
+    data_transformation_artifact = DataTransformationArtifact(transformed_test_file_path=data_transformation_config.transformed_test_file,
+                                                              transformer_obj=data_transformation_config.transformer_object_file_path,
+                                                              transformed_train_file_path=data_transformation_config.transformed_train_file)
+    model_trainer = ModelTrainer(
+        model_trainer_config=model_trainer_config,
+        data_transformation_artifact=data_transformation_artifact
+    )
+    print(model_trainer.Initiate_Model_Training())

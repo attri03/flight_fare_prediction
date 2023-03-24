@@ -65,3 +65,11 @@ def save_pickle_file(file, file_path):
             pickle.dump(file, file_path)
     except Exception as e:
         raise CustomException(e, sys)
+    
+def load_numpy_data(path):
+    try:
+        logging.info('Loading the daved numpy array file')
+        data = np.load(path)
+        return data
+    except Exception as e:
+        raise CustomException(e, sys)
