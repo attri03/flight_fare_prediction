@@ -6,6 +6,7 @@ import os, sys
 import yaml
 import numpy as np
 import pickle
+import dill
 
 def get_collection_as_dataframe(Database:str, collection:str):
     try:
@@ -71,5 +72,14 @@ def load_numpy_data(path):
         logging.info('Loading the daved numpy array file')
         data = np.load(path)
         return data
+    except Exception as e:
+        raise CustomException(e, sys)
+    
+def load_object(file_path: str, ) -> object:
+    try:
+        if not os.path.exists(file_path):
+            raise Exception(f"The file: {file_path} is not exists")
+        with open(file_path, "rb") as file_obj:
+            return dill.load(file_obj)
     except Exception as e:
         raise CustomException(e, sys)
