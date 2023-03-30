@@ -1,11 +1,12 @@
 from flight.components.data_ingestion import DataIngestion
-from flight.entity.config_entity import DataIngestionConfig, TrainingPipelineConfig, DataValidationConfig, DataCleanConfig, DataTransformationConfig, ModelTrainerConfig, ModelEvaluationConfig
-from flight.entity.artifact_entity import DataIngestionArtifact, DataCleanArtifact, DataTransformationArtifact, ModelTrainerArtifact
+from flight.entity.config_entity import DataIngestionConfig, TrainingPipelineConfig, DataValidationConfig, DataCleanConfig, DataTransformationConfig, ModelTrainerConfig, ModelEvaluationConfig, ModelPusherConfig
+from flight.entity.artifact_entity import DataIngestionArtifact, DataCleanArtifact, DataTransformationArtifact, ModelTrainerArtifact, ModelPusherArtifact
 from flight.components.data_validation import DataValidation
 from flight.components.data_clean import DataClean
 from flight.components.data_transformation import DataTransformation
 from flight.components.model_trainer import ModelTrainer
 from flight.components.model_evaluator import ModelEvaluation
+from flight.components.model_pusher import ModelPusher
 
 if __name__ == "__main__":
 
@@ -65,3 +66,10 @@ if __name__ == "__main__":
                                       data_clean_artifact = data_clean_artifact
                                       )
     print(model_evaluator.initiate_model_evaluation())
+
+
+    model_pusher_config = ModelPusherConfig(training_pipeline_config=training_pipeline_config)
+    model_pusher = ModelPusher(model_pusher_config = model_pusher_config,
+                               data_transformation_artifact = data_transformation_artifact,
+                               model_trainer_artifact = model_trainer_artifact)
+    print(model_pusher.initiate_model_pusher())

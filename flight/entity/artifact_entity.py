@@ -33,4 +33,5 @@ class ModelEvaluationArtifact:
 
 @dataclass
 class ModelPusherArtifact:
-    pass
+    pusher_model_dir:str 
+    saved_model_dir:str
